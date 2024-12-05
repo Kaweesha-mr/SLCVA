@@ -22,19 +22,24 @@ import {
 import { VerticalDotsIcon } from "./VerticalDotsIcon";
 import { SearchIcon } from "./SearchIcon";
 import { ChevronDownIcon } from "./ChevronDownIcon";
-import { columns, users, statusOptions, requiredFunctions } from "./data";
+
 import { capitalize } from "./utils";
 
-
 const statusColorMap = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
+  patient: "success",
+  donor: "danger",
+  importer: "warning",
 };
 
 const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
 
-export default function App( ) {
+export default function App({
+  data,
+  columns,
+  statusOptions,
+  requiredFunctions,
+  ...props
+}) {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState(
@@ -42,10 +47,7 @@ export default function App( ) {
   );
   const [statusFilter, setStatusFilter] = React.useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [sortDescriptor, setSortDescriptor] = React.useState({
-    column: "age",
-    direction: "ascending",
-  });
+  const [sortDescriptor, setSortDescriptor] = React.useState({});
   const [page, setPage] = React.useState(1);
 
   const hasSearchFilter = Boolean(filterValue);
@@ -59,10 +61,10 @@ export default function App( ) {
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...users];
+    let filtereddata = [...data];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
+      filtereddata = filtereddata.filter((user) =>
         user.name.toLowerCase().includes(filterValue.toLowerCase()),
       );
     }
@@ -70,13 +72,13 @@ export default function App( ) {
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
     ) {
-      filteredUsers = filteredUsers.filter((user) =>
+      filtereddata = filtereddata.filter((user) =>
         Array.from(statusFilter).includes(user.status),
       );
     }
 
-    return filteredUsers;
-  }, [users, filterValue, statusFilter]);
+    return filtereddata;
+  }, [data, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -107,7 +109,7 @@ export default function App( ) {
 
     switch (getTypeByUid(columnKey)) {
       case "text":
-        return <div className="flex gap-5">{cellValue}</div>;
+        return <div className="flex justify-end items-end gap-5 w-full">{cellValue}</div>;
       case "AcceptDecline":
         return (
           <div className="flex gap-5">
@@ -121,7 +123,7 @@ export default function App( ) {
         );
       case "AcceptDeclineContact":
         return (
-          <div className="text flex gap-0.5">
+          <div className="flex justify-center  gap-1 w-full">
             <Button size="sm" variant="flat" color="success" onClick={""}>
               Accept
             </Button>
@@ -139,30 +141,13 @@ export default function App( ) {
             className="capitalize"
             color={statusColorMap[user.status]}
             size="md"
-            variant="dot"
+            variant="flat"
           >
             {cellValue}
           </Chip>
         );
       case "copy":
         return <Snippet symbol="">{cellValue}</Snippet>;
-      case "actions":
-        return (
-          <div className="relative flex items-center justify-end gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
-                <DropdownItem>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
       default:
         return cellValue;
     }
@@ -272,7 +257,7 @@ export default function App( ) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-small text-default-400">
-            Total {users.length} users
+            Total {data.length} data
           </span>
           <label className="flex items-center text-small text-default-400">
             Rows per page:
@@ -293,7 +278,7 @@ export default function App( ) {
     statusFilter,
     visibleColumns,
     onRowsPerPageChange,
-    users.length,
+    data.length,
     onSearchChange,
     hasSearchFilter,
   ]);
@@ -341,7 +326,7 @@ export default function App( ) {
     <Table
       aria-label="Example table with custom cells, pagination and sorting"
       isHeaderSticky
-      bottomContent={requiredFunctions.pagination? bottomContent:null}
+      bottomContent={requiredFunctions.pagination ? bottomContent : null}
       bottomContentPlacement="outside"
       classNames={{
         wrapper: "max-h-[382px]",
@@ -364,7 +349,7 @@ export default function App( ) {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No users found"} items={sortedItems}>
+      <TableBody emptyContent={"No data found"} items={sortedItems}>
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => (
