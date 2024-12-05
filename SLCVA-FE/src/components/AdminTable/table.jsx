@@ -33,7 +33,7 @@ const statusColorMap = {
 
 const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
 
-export default function App({
+export default function AdminTable({
   data,
   columns,
   statusOptions,
@@ -113,24 +113,24 @@ export default function App({
       case "AcceptDecline":
         return (
           <div className="flex gap-5">
-            <Button size="sm" variant="flat" color="success" onClick={""}>
-              Accept
-            </Button>
-            <Button size="sm" variant="flat" color="danger" onClick={""}>
+            <Button size="sm" variant="flat" color="success" onClick={props.declineButton}>
               Decline
+            </Button>
+            <Button size="sm" variant="flat" color="danger" onClick={props.accpetButton}>
+              Accept
             </Button>
           </div>
         );
       case "AcceptDeclineContact":
         return (
           <div className="flex justify-center  gap-1 w-full">
-            <Button size="sm" variant="flat" color="success" onClick={""}>
+            <Button size="sm" variant="flat" color="success" onClick={props.accpetButton}>
               Accept
             </Button>
-            <Button size="sm" variant="flat" color="danger" onClick={""}>
+            <Button size="sm" variant="flat" color="danger" onClick={props.declineButton}>
               Decline
             </Button>
-            <Button size="sm" variant="flat" color="warning" onClick={""}>
+            <Button size="sm" variant="flat" color="warning" onClick={props.contactButton}>
               Contact
             </Button>
           </div>

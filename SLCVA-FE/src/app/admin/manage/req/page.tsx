@@ -1,4 +1,5 @@
-import App from "@/components/AdminTable/table";
+"use client"
+import AdminTable from "@/components/AdminTable/table";
 
 const Requests = () => {
   const columns = [
@@ -123,9 +124,23 @@ const Requests = () => {
     },
   ];
 
+  const accpetButton = () => {
+    alert("clicked accpetButton")
+  }
+
+  const declineButton = () => {
+
+    alert("clicked declineButton")
+  }
+
+  const contactButton = () => {
+
+    alert("clicked contactButton")
+  }
+
   return (
     <div>
-      <App columns = {columns} requiredFunctions={requiredFunctions}  statusOptions={statusOptions} data={data} />
+      <AdminTable columns = {columns} accpetButton={accpetButton}  declineButton={declineButton} contactButton={contactButton} requiredFunctions={requiredFunctions}  statusOptions={statusOptions} data={data} />
     </div>
   );
 };
