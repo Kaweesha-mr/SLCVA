@@ -27,9 +27,6 @@ const Requests = () => {
     { name: "Patient", uid: "patient" },
   ];
 
-  const tableConfig = {
-    actionButtonType: "icon", //icon or dropdown
-  };
 
   const data = [
     {
