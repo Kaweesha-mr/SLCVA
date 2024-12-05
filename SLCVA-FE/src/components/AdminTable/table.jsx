@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import {
   Table,
@@ -16,13 +16,15 @@ import {
   Chip,
   User,
   Pagination,
+  ButtonGroup,
+  Snippet,
 } from "@nextui-org/react";
-import {PlusIcon} from "./PlusIcon";
-import {VerticalDotsIcon} from "./VerticalDotsIcon";
-import {SearchIcon} from "./SearchIcon";
-import {ChevronDownIcon} from "./ChevronDownIcon";
-import {columns, users, statusOptions} from "./data";
-import {capitalize} from "./utils";
+import { VerticalDotsIcon } from "./VerticalDotsIcon";
+import { SearchIcon } from "./SearchIcon";
+import { ChevronDownIcon } from "./ChevronDownIcon";
+import { columns, users, statusOptions, requiredFunctions } from "./data";
+import { capitalize } from "./utils";
+
 
 const statusColorMap = {
   active: "success",
@@ -32,10 +34,12 @@ const statusColorMap = {
 
 const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
 
-export default function App() {
+export default function App( ) {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
-  const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
+  const [visibleColumns, setVisibleColumns] = React.useState(
+    new Set(INITIAL_VISIBLE_COLUMNS),
+  );
   const [statusFilter, setStatusFilter] = React.useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [sortDescriptor, setSortDescriptor] = React.useState({
@@ -49,7 +53,9 @@ export default function App() {
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
 
-    return columns.filter((column) => Array.from(visibleColumns).includes(column.uid));
+    return columns.filter((column) =>
+      Array.from(visibleColumns).includes(column.uid),
+    );
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
@@ -60,7 +66,10 @@ export default function App() {
         user.name.toLowerCase().includes(filterValue.toLowerCase()),
       );
     }
-    if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
+    if (
+      statusFilter !== "all" &&
+      Array.from(statusFilter).length !== statusOptions.length
+    ) {
       filteredUsers = filteredUsers.filter((user) =>
         Array.from(statusFilter).includes(user.status),
       );
@@ -91,33 +100,55 @@ export default function App() {
   const renderCell = React.useCallback((user, columnKey) => {
     const cellValue = user[columnKey];
 
-    switch (columnKey) {
-      case "name":
+    const getTypeByUid = (uid) => {
+      const column = columns.find((column) => column.uid === uid);
+      return column ? column.type : "text";
+    };
+
+    switch (getTypeByUid(columnKey)) {
+      case "text":
+        return <div className="flex gap-5">{cellValue}</div>;
+      case "AcceptDecline":
         return (
-          <User
-            avatarProps={{radius: "lg", src: user.avatar}}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-400">{user.team}</p>
+          <div className="flex gap-5">
+            <Button size="sm" variant="flat" color="success" onClick={""}>
+              Accept
+            </Button>
+            <Button size="sm" variant="flat" color="danger" onClick={""}>
+              Decline
+            </Button>
           </div>
         );
-      case "status":
+      case "AcceptDeclineContact":
         return (
-          <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="flat">
+          <div className="text flex gap-0.5">
+            <Button size="sm" variant="flat" color="success" onClick={""}>
+              Accept
+            </Button>
+            <Button size="sm" variant="flat" color="danger" onClick={""}>
+              Decline
+            </Button>
+            <Button size="sm" variant="flat" color="warning" onClick={""}>
+              Contact
+            </Button>
+          </div>
+        );
+      case "chip":
+        return (
+          <Chip
+            className="capitalize"
+            color={statusColorMap[user.status]}
+            size="md"
+            variant="dot"
+          >
             {cellValue}
           </Chip>
         );
+      case "copy":
+        return <Snippet symbol="">{cellValue}</Snippet>;
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
+          <div className="relative flex items-center justify-end gap-2">
             <Dropdown>
               <DropdownTrigger>
                 <Button isIconOnly size="sm" variant="light">
@@ -163,78 +194,90 @@ export default function App() {
     }
   }, []);
 
-  const onClear = React.useCallback(()=>{
-    setFilterValue("")
-    setPage(1)
-  },[])
+  const onClear = React.useCallback(() => {
+    setFilterValue("");
+    setPage(1);
+  }, []);
 
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
-          <Input
-            isClearable
-            className="w-full sm:max-w-[44%]"
-            placeholder="Search by name..."
-            startContent={<SearchIcon />}
-            value={filterValue}
-            onClear={() => onClear()}
-            onValueChange={onSearchChange}
-          />
+        <div className="flex items-end justify-between gap-3">
+          {requiredFunctions.searching && (
+            <Input
+              isClearable
+              className="w-full sm:max-w-[44%]"
+              placeholder="Search by name..."
+              startContent={<SearchIcon />}
+              value={filterValue}
+              onClear={() => onClear()}
+              onValueChange={onSearchChange}
+            />
+          )}
           <div className="flex gap-3">
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
-                  Columns
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
-              >
-                {columns.map((column) => (
-                  <DropdownItem key={column.uid} className="capitalize">
-                    {capitalize(column.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />}>
-              Add New
-            </Button>
+            {requiredFunctions.statusFiltering && (
+              <Dropdown>
+                <DropdownTrigger className="hidden sm:flex">
+                  <Button
+                    endContent={<ChevronDownIcon className="text-small" />}
+                    variant="flat"
+                  >
+                    Status
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  disallowEmptySelection
+                  aria-label="Table Columns"
+                  closeOnSelect={false}
+                  selectedKeys={statusFilter}
+                  selectionMode="multiple"
+                  onSelectionChange={setStatusFilter}
+                >
+                  {statusOptions.map((status) => (
+                    <DropdownItem key={status.uid} className="capitalize">
+                      {capitalize(status.name)}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+            )}
+
+            {requiredFunctions.columnSelection && (
+              <Dropdown>
+                <DropdownTrigger className="hidden sm:flex">
+                  <Button
+                    endContent={<ChevronDownIcon className="text-small" />}
+                    variant="flat"
+                  >
+                    Columns
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  disallowEmptySelection
+                  aria-label="Table Columns"
+                  closeOnSelect={false}
+                  selectedKeys={visibleColumns}
+                  selectionMode="multiple"
+                  onSelectionChange={setVisibleColumns}
+                >
+                  {columns.map((column) => (
+                    <DropdownItem key={column.uid} className="capitalize">
+                      {capitalize(column.name)}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+            )}
           </div>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {users.length} users</span>
-          <label className="flex items-center text-default-400 text-small">
+        <div className="flex items-center justify-between">
+          <span className="text-small text-default-400">
+            Total {users.length} users
+          </span>
+          <label className="flex items-center text-small text-default-400">
             Rows per page:
             <select
-              className="bg-transparent outline-none text-default-400 text-small"
+              className="bg-transparent text-small text-default-400 outline-none"
               onChange={onRowsPerPageChange}
             >
               <option value="5">5</option>
@@ -257,7 +300,7 @@ export default function App() {
 
   const bottomContent = React.useMemo(() => {
     return (
-      <div className="py-2 px-2 flex justify-between items-center">
+      <div className="flex items-center justify-between px-2 py-2">
         <span className="w-[30%] text-small text-default-400">
           {selectedKeys === "all"
             ? "All items selected"
@@ -272,11 +315,21 @@ export default function App() {
           total={pages}
           onChange={setPage}
         />
-        <div className="hidden sm:flex w-[30%] justify-end gap-2">
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
+        <div className="hidden w-[30%] justify-end gap-2 sm:flex">
+          <Button
+            isDisabled={pages === 1}
+            size="sm"
+            variant="flat"
+            onPress={onPreviousPage}
+          >
             Previous
           </Button>
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
+          <Button
+            isDisabled={pages === 1}
+            size="sm"
+            variant="flat"
+            onPress={onNextPage}
+          >
             Next
           </Button>
         </div>
@@ -288,13 +341,12 @@ export default function App() {
     <Table
       aria-label="Example table with custom cells, pagination and sorting"
       isHeaderSticky
-      bottomContent={bottomContent}
+      bottomContent={requiredFunctions.pagination? bottomContent:null}
       bottomContentPlacement="outside"
       classNames={{
         wrapper: "max-h-[382px]",
       }}
       selectedKeys={selectedKeys}
-      selectionMode="multiple"
       sortDescriptor={sortDescriptor}
       topContent={topContent}
       topContentPlacement="outside"
@@ -315,7 +367,9 @@ export default function App() {
       <TableBody emptyContent={"No users found"} items={sortedItems}>
         {(item) => (
           <TableRow key={item.id}>
-            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+            {(columnKey) => (
+              <TableCell>{renderCell(item, columnKey)}</TableCell>
+            )}
           </TableRow>
         )}
       </TableBody>
