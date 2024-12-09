@@ -63,7 +63,8 @@ export default function Form (){
     
    return(
  
-     
+    <div className="flex justify-center items-center h-screen">
+        
        <form  onSubmit={handleSubmit} className="flex flex-100 flex-col gap-y-2">
         <h1 className="text-2xl font-semibold">Registration Request Form</h1>
         
@@ -92,7 +93,7 @@ export default function Form (){
             onChange={(e) => setLicense(e.target.value)}
             placeholder="License Number"
             type="text"
-            className="border-2 border-gray-300 w-90 rounded-md p-2"
+            className="border-2 border-gray-300  rounded-md p-2"
             />
 
         <input  
@@ -161,10 +162,10 @@ export default function Form (){
            <button
             type="submit"
             disabled = {isSubmitting}
-            className="bg-blue-500 disabled:bg-gray-500 py-2 rounded"> Send Request </button>
+            className="bg-blue-500 py-2 rounded"> Send Request </button>
 
        </form>
      
- 
+ </div>
   );
 }
