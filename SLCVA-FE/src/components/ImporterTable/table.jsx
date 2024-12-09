@@ -19,9 +19,10 @@ import {
   ButtonGroup,
   Snippet,
 } from "@nextui-org/react";
- 
+import { VerticalDotsIcon } from "./VerticalDotsIcon";
 import { SearchIcon } from "./SearchIcon";
 import { ChevronDownIcon } from "./ChevronDownIcon";
+
 import { capitalize } from "./utils";
 
 const statusColorMap = {
@@ -29,9 +30,10 @@ const statusColorMap = {
   donor: "danger",
   importer: "warning",
 };
-const INITIAL_VISIBLE_COLUMNS = ["Patient Name", "Medication Name", "Medication Dosage", "View Prescription", "Quote"];
 
-export default function TableComponent ({
+const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
+
+function ImporterTable({
   data,
   columns,
   statusOptions,
@@ -107,28 +109,57 @@ export default function TableComponent ({
 
     switch (getTypeByUid(columnKey)) {
       case "text":
-        return <div className="flex justify-end items-end gap-5 w-full">{cellValue}</div>;
+        return (
+          <div className="flex w-full items-end justify-end gap-5">
+            {cellValue}
+          </div>
+        );
       case "AcceptDecline":
         return (
           <div className="flex gap-5">
-            <Button size="sm" variant="flat" color="success" onClick={props.declineButton}>
+            <Button
+              size="sm"
+              variant="flat"
+              color="success"
+              onClick={props.declineButton}
+            >
               Decline
             </Button>
-            <Button size="sm" variant="flat" color="danger" onClick={props.accpetButton}>
+            <Button
+              size="sm"
+              variant="flat"
+              color="danger"
+              onClick={props.accpetButton}
+            >
               Accept
             </Button>
           </div>
         );
       case "AcceptDeclineContact":
         return (
-          <div className="flex justify-center  gap-1 w-full">
-            <Button size="sm" variant="flat" color="success" onClick={props.accpetButton}>
+          <div className="flex w-full justify-center gap-1">
+            <Button
+              size="sm"
+              variant="flat"
+              color="success"
+              onClick={props.accpetButton}
+            >
               Accept
             </Button>
-            <Button size="sm" variant="flat" color="danger" onClick={props.declineButton}>
+            <Button
+              size="sm"
+              variant="flat"
+              color="danger"
+              onClick={props.declineButton}
+            >
               Decline
             </Button>
-            <Button size="sm" variant="flat" color="warning" onClick={props.contactButton}>
+            <Button
+              size="sm"
+              variant="flat"
+              color="warning"
+              onClick={props.contactButton}
+            >
               Contact
             </Button>
           </div>
@@ -359,3 +390,6 @@ export default function TableComponent ({
     </Table>
   );
 }
+
+
+export { ImporterTable };

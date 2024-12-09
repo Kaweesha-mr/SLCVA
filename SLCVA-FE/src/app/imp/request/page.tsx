@@ -1,71 +1,126 @@
 "use client"
- 
- import TableComponent from "@/app/imp/_components/table";
+import {ImporterTable} from "@/components/ImporterTable/table";
 
 const Requests = () => {
-    const columns = [
-        {name: "ID", uid: "id", sortable: true},
-        {name: "Patient Name", uid: "name", sortable: true},
-        {name : "Medication Name", uid: "Mname", Sortable: true},
-        {name: "Medication Dosage", uid: "dosage", Sortable: true},
-        {name: "Request Date", uid: "date", Sortable: true},
-        {name: "Additional Information", uid: "info", Sortable: true},
-        {name: "Actions", uid: "actions", type: "AcceptDeclineContact"},
+  const columns = [
+    { name: "ID", uid: "id", sortable: true },
+    { name: "NAME", uid: "name", sortable: true },
+    { name: "EMAIL", uid: "email" },
+    { name: "ROLE", uid: "role", sortable: true },
+    { name: "STATUS", uid: "status", sortable: true, type: "chip" },
+    { name: "ACTIONS", uid: "actions", type: "AcceptDeclineContact" },
+  ];
+
+  const requiredFunctions = {
+    searching: true,
+    refrsh: true,
+    statusFiltering: true,
+    pagination: true,
+    columnSelection: true,
+  };
+
+  //type : AccdeptDecline, AcceptDeclineContact,text.copy,chips
+
+  const statusOptions = [
+    { name: "Donor", uid: "donor" },
+    { name: "Importer", uid: "importer" },
+    { name: "Patient", uid: "patient" },
+  ];
 
 
-    ];
+  const data = [
+    {
+      id: 1,
+      name: "Tony Reichert",
+      role: "CEO",
+      team: "Management",
+      status: "donor",
+      age: "29",
+      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+      email: "tony.reichert@example.com",
+    },
+    {
+      id: 2,
+      name: "Zoey Lang",
+      role: "Tech Lead",
+      team: "Development",
+      status: "donor",
+      age: "25",
+      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
+      email: "zoey.lang@example.com",
+    },
+    {
+      id: 3,
+      name: "Jane Fisher",
+      role: "Sr. Dev",
+      team: "Development",
+      status: "active",
+      age: "22",
+      avatar: "https://i.pravatar.cc/150?u=a04258114e29026702d",
+      email: "jane.fisher@example.com",
+    },
+    {
+      id: 4,
+      name: "William Howard",
+      role: "C.M.",
+      team: "Marketing",
+      status: "patient",
+      age: "28",
+      avatar: "https://i.pravatar.cc/150?u=a048581f4e29026701d",
+      email: "william.howard@example.com",
+    },
+    {
+      id: 5,
+      name: "Kristen Copper",
+      role: "S. Manager",
+      team: "Sales",
+      status: "patient",
+      age: "24",
+      avatar: "https://i.pravatar.cc/150?u=a092581d4ef9026700d",
+      email: "kristen.cooper@example.com",
+    },
+    {
+      id: 6,
+      name: "Brian Kim",
+      role: "P. Manager",
+      team: "Management",
+      age: "29",
+      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+      email: "brian.kim@example.com",
+      status: "patient",
+    },
+    {
+      id: 7,
+      name: "Michael Hunt",
+      role: "Designer",
+      team: "Design",
+      status: "importer",
+      age: "27",
+      avatar: "https://i.pravatar.cc/150?u=a042581f4e29027007d",
+      email: "michael.hunt@example.com",
+    },
+    {
+      id: 8,
+      name: "Samantha Brooks",
+      role: "HR Manager",
+      team: "HR",
+      status: "donor",
+      age: "31",
+      avatar: "https://i.pravatar.cc/150?u=a042581f4e27027008d",
+      email: "samantha.brooks@example.com",
+    },
+    {
+      id: 9,
+      name: "Frank Harrison",
+      role: "F. Manager",
+      team: "Finance",
+      status: "donor",
+      age: "33",
+      avatar: "https://i.pravatar.cc/150?img=4",
+      email: "frank.harrison@example.com",
+    },
+  ];
 
-    const requiredFunctions = {
-        searching: true,
-        refresh: true,
-        statusFiltering: true,
-        pagination: true,
-        columnSelection: true,
-    };
-
-    const statusOptions = [
-         
-        { name: "Pending", uid:"pending" },
-        { name: "Declined", uid:"declined" },
-        { name: "Quoted", uid:"quoted" },
-        
-      ];
-
-    const data = [  
-        {
-            id: 1,
-            name: "John Doe",
-            Mname: "Ibuprofen",
-            dosage: "200mg",
-            date: "2021-09-21",
-            info: "N/A",
-        },
-        {
-            id: 2,
-            name: "Jane Doe",
-            Mname: "Tylenol",
-            dosage: "500mg",
-            date: "2021-09-21",
-            info: "N/A",
-        },
-        {
-            id: 3,
-            name: "John Smith",
-            Mname: "Advil",
-            dosage: "400mg",
-            date: "2021-09-21",
-            info: "N/A",
-        },
-        {
-            id: 4,
-            name: "Jane Smith",
-            Mname: "Aleve",
-            dosage: "200mg",
-            date: "2021-09-21",
-            info: "N/A",
-        },
-    ];
-    
   const accpetButton = () => {
     alert("clicked accpetButton")
   }
@@ -82,7 +137,9 @@ const Requests = () => {
 
   return (
     <div>
-      <TableComponent columns = {columns} accpetButton={accpetButton}  declineButton={declineButton} contactButton={contactButton} requiredFunctions={requiredFunctions}  statusOptions={statusOptions} data={data} />
+
+      <ImporterTable data={data} columns={columns} requiredFunctions={requiredFunctions} statusOptions={statusOptions} />
+      
     </div>
   );
 }

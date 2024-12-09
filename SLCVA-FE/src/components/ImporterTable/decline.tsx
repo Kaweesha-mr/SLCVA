@@ -14,4 +14,3 @@
     strokeWidth={1}
   />
 </svg>;
-

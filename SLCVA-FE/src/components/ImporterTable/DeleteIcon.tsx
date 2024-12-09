@@ -1,6 +1,5 @@
-import { JSX, SVGProps } from "react";
 
-export const DeleteIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+export const DeleteIcon = (props) => (
     <svg
       aria-hidden="true"
       fill="none"
