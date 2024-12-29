@@ -31,7 +31,7 @@ const statusColorMap = {
   importer: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
+const INITIAL_VISIBLE_COLUMNS = ["name", "mname", "date","dosage", "actions"];
 
 function ImporterTable({
   data,
@@ -131,7 +131,7 @@ function ImporterTable({
               color="danger"
               onClick={props.accpetButton}
             >
-              Accept
+              Quote
             </Button>
           </div>
         );
@@ -144,7 +144,7 @@ function ImporterTable({
               color="success"
               onClick={props.accpetButton}
             >
-              Accept
+             Quote
             </Button>
             <Button
               size="sm"
@@ -160,7 +160,7 @@ function ImporterTable({
               color="warning"
               onClick={props.contactButton}
             >
-              Contact
+             View
             </Button>
           </div>
         );

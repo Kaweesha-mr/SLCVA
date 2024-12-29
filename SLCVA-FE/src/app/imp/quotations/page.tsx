@@ -1,28 +1,27 @@
 "use client"
-import DropdownMessage from "@/components/Header/DropdownMessage";
+
 import {ImporterTable} from "@/components/ImporterTable/table";
 
-const Requests = () => {
-  const columns = [
-    { name: "ID", uid: "id", sortable: true },
-    { name: "PATIENT NAME", uid: "name", sortable: true },
-    { name: "MEDICATION NAME", uid: "mname", sortable: true },  
-    { name: "MEDICATION DOSAGE", uid: "dosage", sortable: true },
-    {name: "REQUEST DATE", uid: "date", sortable: true},
-    {name:"ADDITIONAL NOTES",uid:"notes",sortable:true},
-    {name: "STATUS", uid: "status", type: "chips" },
-    { name: "ACTIONS", uid: "actions", type: "AcceptDeclineContact" },
-  ];
+const Quotations = () => {
+    const columns = [
+        {name: "ID", uid: "id", sortable:true}, 
+        { name: "PATIENT NAME", uid: "name", sortable: true },
+        { name: "MEDICATION NAME", uid: "mname", sortable: true },  
+        { name: "MEDICATION DOSAGE", uid: "dosage", sortable: true },
+        {name: "REQUEST DATE", uid: "date", sortable: true},
+        {name:"ADDITIONAL NOTES",uid:"notes",sortable:true},
+        {name: "STATUS", uid: "status", type: "chips" },
 
-  const requiredFunctions = {
+    ];
+
+
+const requiredFunctions = {
     searching: true,
     refrsh: true,
     statusFiltering: true,
     pagination: true,
     columnSelection: true,
   };
-
-  //type : AccdeptDecline, AcceptDeclineContact,text.copy,chips
 
   const statusOptions = [
     { name: "Donor", uid: "donor" },
@@ -38,6 +37,7 @@ const Requests = () => {
       mname: "Paracetamol",
       dosage: "500mg",
       date: "12/12/2021",
+      status: "donor",
       notes: "Patient is allergic to penicillin",
     },
     {
@@ -46,6 +46,7 @@ const Requests = () => {
       mname: "Aspirin",
       dosage: "100mg",
       date: "12/12/2021",
+      status: "importer",
       notes: "Patient is allergic to penicillin",
     },
     {
@@ -54,6 +55,7 @@ const Requests = () => {
       mname: "Paracetamol",
       dosage: "500mg",
       date: "12/12/2021",
+      status: "donor",
       notes: "Patient is allergic to penicillin",
 
     },
@@ -63,6 +65,7 @@ const Requests = () => {
       mname: "Aspirin",
       dosage: "100mg",
       date: "12/12/2021",
+      status: "patient",
       notes: "Patient is allergic to penicillin",
     },
     {
@@ -71,6 +74,7 @@ const Requests = () => {
       mname: "Paracetamol",
       dosage: "500mg",
       date: "12/12/2021",
+      status: "donor",
       notes: "Patient is allergic to penicillin",
     },
     {
@@ -79,6 +83,7 @@ const Requests = () => {
       mname: "Aspirin",
       dosage: "100mg",
       date: "12/12/2021",
+      status: "patient",
       notes: "Patient is allergic to penicillin",
 
     },
@@ -88,6 +93,7 @@ const Requests = () => {
       mname: "Paracetamol",
       dosage: "500mg",
       date: "12/12/2021",
+      status: "donor",
       notes: "Patient is allergic to penicillin",
 
     },
@@ -105,6 +111,7 @@ const Requests = () => {
       mname: "Paracetamol",
       dosage: "500mg",
       date: "12/12/2021",
+      status: "donor",
       notes: "Patient is allergic to penicillin",
     },
     {
@@ -113,25 +120,13 @@ const Requests = () => {
       mname: "Aspirin",
       dosage: "100mg",
       date: "12/12/2021",
+      status: "donor",
       notes: "Patient is allergic to penicillin",
     },
      
   ];
 
-  const accpetButton = () => {
-    alert("clicked accpetButton")
-  }
-
-  const declineButton = () => {
-
-    alert("clicked declineButton")
-  }
-
-  const contactButton = () => {
-
-    alert("clicked contactButton")
-  }
-
+  
   return (
     <div>
 
@@ -141,4 +136,4 @@ const Requests = () => {
   );
 }
 
-export default Requests;
+export default Quotations;
