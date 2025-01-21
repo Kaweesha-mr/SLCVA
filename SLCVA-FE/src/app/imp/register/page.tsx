@@ -1,14 +1,11 @@
 "use client";
-import { Button, Input, Tooltip } from "@nextui-org/react";
 import React , {useState} from "react";
 import {z} from "zod";
-
  
 export default function Form (){
 
     
     const [name, setName] = useState("");
-    const [nic, setNic] = useState("");
     const [email, setEmail] = useState("");
     const [license, setLicense] = useState("");
     const [phone, setPhone] = useState("");
@@ -22,7 +19,6 @@ export default function Form (){
 
     const FormSchema = z.object({
         name: z.string().min(3, {message: "Name must be at least 3 characters long"}),
-        nic: z.string().min(10, {message: "NIC number must be at least 10 characters long"}),
         email: z.string().email({message: "Invalid email address"}),
         license: z.string().min(5, {message: "License number must be at least 5 characters long"}),
         phone: z.string().min(10, {message: "Invalid Phone number"}),
@@ -37,7 +33,7 @@ export default function Form (){
         setIsSubmitting(true);
 
         console.log("Submitted form data:");
-        console.log({ name,nic, email, license, phone, website, password, confirmPassword, additionalInfo,selectfile });
+        console.log({ name, email, license, phone, website, password, confirmPassword, additionalInfo,selectfile });
 
         if(password !== confirmPassword){
             setError(["Passwords do not match"]);
@@ -50,7 +46,6 @@ export default function Form (){
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         setName("");
-        setNic("");
         setEmail("");
         setLicense("");
         setPhone("");
@@ -67,12 +62,10 @@ export default function Form (){
     
     
    return(
-
-    <form  onSubmit={handleSubmit} className="max-w-[600px] space-y-6 mx-auto">
-        <h1 className="text-2xl font-semibold " >Registration Request Form</h1>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
  
      
+       <form  onSubmit={handleSubmit} className="flex flex-100 flex-col gap-y-2">
+        <h1 className="text-2xl font-semibold">Registration Request Form</h1>
         
         {
             error.length > 0 &&(
@@ -85,137 +78,90 @@ export default function Form (){
 
         }
 
-        <Input
-            label="Full Name"
-            name="fullName"
+        <input
             value={name}
             // update the name state with the value of the input
             onChange={(e) => setName(e.target.value)} 
-            placeholder="Full Name"
-            autoFocus
-          /> 
+            placeholder="Name"
+            type="text"
+            className="border-2 border-gray-300 flex justify-center rounded-md p-2"
+            />
 
-          <Input
-            label="NIC"
-            value={nic}
-            onChange={(e) => setName(e.target.value)} 
-            name="nic"
-            placeholder="NIC"
-          />
+        <input
+            value={license}
+            onChange={(e) => setLicense(e.target.value)}
+            placeholder="License Number"
+            type="text"
+            className="border-2 border-gray-300 w-90 rounded-md p-2"
+            />
 
-          <Input
-                label="Website"
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
-                name="website"
-                placeholder="abs.com"
-              />
-
-           <Input
-                label="Licence Number"
-                value={license}
-                onChange={(e) => setLicense(e.target.value)}
-                name="licenceNumber"
-                placeholder="Licence Number"
-              />
-
-          <Input
-            label="Email"
+        <input  
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            name="email"
-            placeholder="example@gmail.com"
+            className="border-2 border-gray-300 rounded-md p-2"
+            placeholder="Email"
             type="email"
-            
-          />
-
+            />  
  
- 
-           <Input
-            label="Phone Number"
+            <input
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            name="phone"
-            placeholder="+94 123 456 678"
-            type="phone"
-             
-          />
+            className="border-2 border-gray-300 rounded-md p-2"
+            placeholder="Phone Number"
+            type="text"
 
-           <Input
-          label = "Additional Text"
-          value={additionalInfo}
-            onChange={(e) => setAdditionalInfo(e.target.value)}
-            name="additionalInfo"
-            placeholder="Additional Information"
-            
-          />
-
-        <Tooltip
-                placement="bottom"
-                content={
-                  <div className="px-1 py-2">
-                    <div className="text-small font-bold">
-                      Upload Medical Documents
-                    </div>
-                    <div className="text-tiny text-slate-500 mt-1">
-                      Documents should prove the situation. <br /> Only image
-                      formats and PDFs are allowed. <br />
-                      <span className="text-red-600">
-                        Files must be less than 1 MB in size.
-                      </span>
-                    </div>
-                  </div>
-                }
-                >
-
-                <Input
-                id="medicalDocuments"
-                type="file"
-                onChange={(e) => {
-                    if (e.target.files && e.target.files.length > 0) {
-                        setSelectFile(e.target.files[0]);
-                    }
-                }}
-                name="medicalDocuments"
-                label="Medical Documents"
             />
-              </Tooltip>
-              </div>
-              
-        <div className="flex flex-col items-center space-y-6">
-          <Input
-            label="Password"
+
+            <input
+            type="url"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+            className="border-2 border-gray-300 rounded-md p-2"
+            placeholder="Website"  
+             
+            />
+
+           
+            <textarea
+            value={additionalInfo}
+            onChange={(e) => setAdditionalInfo(e.target.value)}
+            className="border-2 border-gray-300 rounded-md p-2"
+            placeholder="Additional Information"
+            />
+
+            <input 
+            type = "file"
+            onChange={(e) => {
+                if (e.target.files && e.target.files.length > 0) {
+                    setSelectFile(e.target.files[0]);
+                }
+            }}
+            className="border-2 border-gray-300 rounded-md p-2"
+            placeholder="Upload Documents"
+             />
+
+        <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            name="password"
-            placeholder="Password"
+            className="border-2 border-gray-300 rounded-md p-2"
             type="password"
-            
-          />
-          <Input
-            label="Confirm Password"
+            placeholder="Password"
+            />
+
+
+        <input
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            name="confirmPassword"
-            placeholder="Confirm Password"
+            className="border-2 border-gray-300 rounded-md p-2"
             type="password"
-             
-          />
+            placeholder="Confirm Password"
+            />
 
-        
-    
-        <div className="flex gap-5">
-            <Button
-              size="md"
-              className="text-center"
-              type="submit"
-              onClick={handleSubmit}
-              variant="shadow"
-            >
-              Submit
-            </Button>
-        </div>
-        </div>
+
+           <button
+            type="submit"
+            disabled = {isSubmitting}
+            className="bg-blue-500 disabled:bg-gray-500 py-2 rounded"> Send Request </button>
 
        </form>
      
