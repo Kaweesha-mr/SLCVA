@@ -27,7 +27,7 @@
           label: "Bill Requests",
           route: "#",
           children: [
-            { label: "eCommerce", route: "/u" },
+            { label: "eCommerce", route: "/imp/request" },
           ],
         },
         {
@@ -51,7 +51,7 @@
           label: "Quotations",
           route: "#",
           children: [
-            { label: "Tables", route: "/tables" },
+            { label: "Tables", route: "/imp/quotations" },
           ],
         },
         {
@@ -75,7 +75,7 @@
           label: "Profile",
           route: "#",
           children: [
-            { label: "Profile", route: "/pages/settings" },
+            { label: "Profile", route: "/imp/profile" },
             { label: "Settings", route: "/pages/settings" },
           ],
         },
