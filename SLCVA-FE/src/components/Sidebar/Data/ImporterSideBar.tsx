@@ -75,6 +75,7 @@
           label: "Profile",
           route: "#",
           children: [
+            { label: "Profile", route: "/pages/settings" },
             { label: "Settings", route: "/pages/settings" },
           ],
         },
