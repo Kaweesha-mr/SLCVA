@@ -26,7 +26,9 @@
           ),
           label: "Bill Requests",
           route: "#",
-           
+          children: [
+            { label: "eCommerce", route: "/u" },
+          ],
         },
         {
           icon: (
@@ -48,7 +50,9 @@
           ),
           label: "Quotations",
           route: "#",
-           
+          children: [
+            { label: "Tables", route: "/tables" },
+          ],
         },
         {
           icon: (
@@ -70,7 +74,9 @@
           ),
           label: "Profile",
           route: "#",
-           
+          children: [
+            { label: "Settings", route: "/pages/settings" },
+          ],
         },
       ],
     },

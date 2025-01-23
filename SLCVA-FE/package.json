@@ -26,6 +26,7 @@
     "@nextui-org/table": "^2.0.40",
     "@nextui-org/theme": "^2.2.11",
     "@nextui-org/tooltip": "^2.0.41",
+    "@radix-ui/react-avatar": "^1.1.2",
     "apexcharts": "^4.1.0",
     "flatpickr": "^4.6.13",
     "framer-motion": "^11.13.1",
