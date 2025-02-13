@@ -1,6 +1,6 @@
   const ImporterSidebar = [
     {
-      name:"MENU",
+      
       menuItems: [
         {
           icon: (

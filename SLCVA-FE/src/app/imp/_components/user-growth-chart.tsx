@@ -29,7 +29,7 @@ const data = [
 export function UserGrowthChart() {
   return (
     <Card className="p-6">
-      <h2 className="text-2xl font-semibold mb-6">User Growth Analysis</h2>
+      <h2 className="text-2xl font-semibold mb-6">Drug Imports Analysis</h2>
       <div className="h-[400px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data}>

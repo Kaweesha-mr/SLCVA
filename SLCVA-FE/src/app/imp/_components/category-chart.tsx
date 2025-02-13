@@ -11,11 +11,11 @@ import {
 import { Card } from "@/components/ui/card";
 
 const data = [
-  { name: "Electronics", value: 35 },
-  { name: "Clothing", value: 25 },
-  { name: "Food & Beverage", value: 20 },
-  { name: "Home & Garden", value: 15 },
-  { name: "Others", value: 5 },
+  { name: "Western", value: 35 },
+  { name: "Southern", value: 25 },
+  { name: "North Western ", value: 20 },
+  { name: "Northern", value: 15 },
+  { name: "Eastern", value: 5 },
 ];
 
 const COLORS = [
@@ -29,7 +29,7 @@ const COLORS = [
 export function CategoryChart() {
   return (
     <Card className="p-6">
-      <h2 className="text-2xl font-semibold mb-6">Category Distribution</h2>
+      <h2 className="text-2xl font-semibold mb-6"> Prescription Request Distribution</h2>
       <div className="h-[400px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
